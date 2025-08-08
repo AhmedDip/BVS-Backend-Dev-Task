@@ -16,9 +16,9 @@ class ArticleController extends Controller
 
     public function index()
     {
-        // return Article::where('status','published')->with('user')->paginate(15);
         try {
             $articles = Article::where('status', 'published')->with('author:id,name')->paginate(10);
+            // dd($articles);
             return response()->json([
                 'status'      => 'success',
                 'status_code' => 200,
@@ -35,8 +35,6 @@ class ArticleController extends Controller
 
     public function mine(Request $request)
     {
-        // $user = $request->user();
-        // return Article::where('user_id', $user->id)->paginate(15);
         try {
             $user = $request->user();
             // dd($user);
@@ -57,16 +55,6 @@ class ArticleController extends Controller
 
     public function store(StoreArticleRequest $request)
     {
-        // $this->authorize('create', Article::class);
-
-        // $validated = $request->validated();
-
-        // $article          = new Article($validated);
-        // $article->user_id = $request->user()->id;
-        // $article->status  = 'draft';
-        // $article->save();
-
-        // return response()->json($article, 201);
         try {
             $this->authorize('create', Article::class);
 
@@ -94,12 +82,6 @@ class ArticleController extends Controller
 
     public function update(UpdateArticleRequest $request, $id)
     {
-        // $article = Article::findOrFail($id);
-        // $this->authorize('update', $article);
-
-        // $article->update($request->validated());
-
-        // return response()->json($article);
         try {
             $article = Article::findOrFail($id);
             $this->authorize('update', $article);
@@ -122,10 +104,6 @@ class ArticleController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        // $article = Article::findOrFail($id);
-        // $this->authorize('delete', $article);
-        // $article->delete();
-        // return response()->json(['message' => 'Deleted']);
         try {
             $article = Article::findOrFail($id);
             $this->authorize('delete', $article);
@@ -147,14 +125,6 @@ class ArticleController extends Controller
 
     public function publish(Request $request, $id)
     {
-        // $article = Article::findOrFail($id);
-        // $this->authorize('publish', $article);
-
-        // $article->status       = 'published';
-        // $article->published_at = now();
-        // $article->save();
-
-        // return response()->json($article);
         try {
             $article = Article::findOrFail($id);
             $this->authorize('publish', $article);
