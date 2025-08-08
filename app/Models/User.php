@@ -10,7 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -42,4 +42,56 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'role_user')->withTimestamps();
+    }
+
+    public function articles()
+    {
+        return $this->hasMany(Article::class);
+    }
+
+    public function assignRole($role)
+    {
+        if (is_string($role)) {
+            $role = Role::where('name',$role)->firstOrFail();
+        }
+        $this->roles()->syncWithoutDetaching([$role->id]);
+    }
+
+    public function removeRole($role)
+    {
+        if (is_string($role)) {
+            $role = Role::where('name',$role)->first();
+            if (!$role) return;
+        }
+        $this->roles()->detach($role->id);
+    }
+
+    public function hasRole($roleName): bool
+    {
+        return $this->roles()->where('name', $roleName)->exists();
+    }
+
+    public function hasAnyRole(array $roleNames): bool
+    {
+        return $this->roles()->whereIn('name', $roleNames)->exists();
+    }
+
+    /**
+     * Check permission via roles->permissions
+     */
+    
+    public function hasPermission($permissionName): bool
+    {
+        return \DB::table('permission_role')
+            ->join('roles','roles.id','permission_role.role_id')
+            ->join('permissions','permissions.id','permission_role.permission_id')
+            ->join('role_user','role_user.role_id','roles.id')
+            ->where('role_user.user_id',$this->id)
+            ->where('permissions.name',$permissionName)
+            ->exists();
+    }
 }
