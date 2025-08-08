@@ -1,6 +1,6 @@
 Here is the **README.md** file with the specific seeder artisan commands included, properly formatted and ready to use:
 
-````markdown
+
 # Laravel Multi-Role Publishing API
 
 ## Installation & Setup
@@ -9,8 +9,8 @@ Here is the **README.md** file with the specific seeder artisan commands include
 ```bash
 git clone https://github.com/AhmedDip/BVS-Backend-Dev-Task.git
 cd BVS-Backend-Dev-Task
+
 ```
-````
 
 ### 2. Install dependencies
 
