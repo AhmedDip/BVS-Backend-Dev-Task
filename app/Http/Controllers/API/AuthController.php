@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\User;
+use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
