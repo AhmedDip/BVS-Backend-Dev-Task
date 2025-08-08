@@ -10,6 +10,7 @@ Here is the **README.md** file with the specific seeder artisan commands include
 git clone https://github.com/AhmedDip/BVS-Backend-Dev-Task.git
 cd BVS-Backend-Dev-Task
 ```
+````
 
 ### 2. Install dependencies
 
