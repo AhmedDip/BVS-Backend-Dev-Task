@@ -56,60 +56,267 @@ Response:
 
 POST /api/logout
 Description: Logout user (requires token)
-In Authorization, In auth Type Added Bearer Token And added this token
-4|tfp4FukIdMCz1TUJSvlJNnc6IKd2oagMdSgfRjPKc0afe408
+In Authorization, In auth Type Added Bearer Token 
 Test Request Payload: None
-Example Response:
+Response:
 {
-  "message": "Logged out successfully"
+    "status": "success",
+    "status_code": 200,
+    "message": "User logged out successfully!"
 }
 
 GET /api/users
 Description: List all users (Admin only)
 Test Request Payload: None
-Example Response:
-[
-  { "id": 1, "name": "Admin", "email": "admin@bvs.com" },
-  { "id": 2, "name": "Editor", "email": "editor@bvs.com" }
-]
+Response:
+{
+    "status": "success",
+    "data": [
+        {
+            "id": 1,
+            "name": "Admin User",
+            "email": "admin@bvs.com",
+            "roles": [
+                {
+                    "id": 1,
+                    "name": "admin"
+                }
+            ],
+            "created_at": "2025-08-09T06:24:34.000000Z",
+            "updated_at": "2025-08-09T06:24:34.000000Z"
+        },
+        {
+            "id": 2,
+            "name": "Editor User",
+            "email": "editor@bvs.com",
+            "roles": [
+                {
+                    "id": 2,
+                    "name": "editor"
+                }
+            ],
+            "created_at": "2025-08-09T06:24:34.000000Z",
+            "updated_at": "2025-08-09T06:24:34.000000Z"
+        },
+        {
+            "id": 3,
+            "name": "Author User",
+            "email": "author@bvs.com",
+            "roles": [
+                {
+                    "id": 3,
+                    "name": "author"
+                }
+            ],
+            "created_at": "2025-08-09T06:24:35.000000Z",
+            "updated_at": "2025-08-09T06:24:35.000000Z"
+        },
+        {
+            "id": 6,
+            "name": "Dip Ahmed",
+            "email": "dip546@gmail.com",
+            "roles": [
+                {
+                    "id": 3,
+                    "name": "author"
+                },
+                {
+                    "id": 2,
+                    "name": "editor"
+                }
+            ],
+            "created_at": "2025-08-11T04:07:01.000000Z",
+            "updated_at": "2025-08-11T04:07:01.000000Z"
+        }
+    ]
+}
 
 POST /api/users/{id}/assign-role
 Description: Assign a role to a user (Admin only)
 Test Request Payload:
 {
-  "role": "Editor"
+  "role": "editor"
 }
-Example Response:
+Response:
 {
-  "message": "Role assigned successfully"
+    "message": "Role assigned successfully",
+    "user": {
+        "id": 6,
+        "name": "Dip Ahmed",
+        "email": "dip546@gmail.com",
+        "email_verified_at": null,
+        "created_at": "2025-08-11T04:07:01.000000Z",
+        "updated_at": "2025-08-11T04:07:01.000000Z",
+        "roles": [
+            {
+                "id": 2,
+                "name": "editor",
+                "display_name": "Editor",
+                "created_at": "2025-08-09T06:24:27.000000Z",
+                "updated_at": "2025-08-09T06:24:27.000000Z",
+                "pivot": {
+                    "user_id": 6,
+                    "role_id": 2,
+                    "created_at": "2025-08-11T04:13:57.000000Z",
+                    "updated_at": "2025-08-11T04:13:57.000000Z"
+                }
+            },
+            {
+                "id": 3,
+                "name": "author",
+                "display_name": "Author",
+                "created_at": "2025-08-09T06:24:27.000000Z",
+                "updated_at": "2025-08-09T06:24:27.000000Z",
+                "pivot": {
+                    "user_id": 6,
+                    "role_id": 3,
+                    "created_at": "2025-08-11T04:07:01.000000Z",
+                    "updated_at": "2025-08-11T04:07:01.000000Z"
+                }
+            }
+        ]
+    }
 }
-
 GET /api/profile
 Description: Get own profile
 Test Request Payload: None
-Example Response:
+Response:
 {
-  "id": 1,
-  "name": "Admin",
-  "email": "admin@bvs.com",
-  "roles": ["Admin"]
+    "status": "success",
+    "status_code": 200,
+    "data": {
+        "id": 1,
+        "name": "Admin User",
+        "email": "admin@bvs.com",
+        "roles": [
+            {
+                "id": 1,
+                "name": "admin"
+            }
+        ],
+        "created_at": "2025-08-09T06:24:34.000000Z",
+        "updated_at": "2025-08-09T06:24:34.000000Z"
+    }
 }
 
 GET /api/articles
 Description: List published articles
 Test Request Payload: None
-Example Response:
-[
-  { "id": 1, "title": "First Article", "author": "Author User" }
-]
+Response:
+{
+    "status": "success",
+    "status_code": 200,
+    "data": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": 1,
+                "title": "Test Article 1",
+                "content": "Lorem Ipsum",
+                "user_id": 1,
+                "status": "published",
+                "published_at": "2025-08-11 04:22:10",
+                "created_at": "2025-08-11T04:17:29.000000Z",
+                "updated_at": "2025-08-11T04:22:10.000000Z",
+                "author": {
+                    "id": 1,
+                    "name": "Admin User"
+                }
+            },
+            {
+                "id": 2,
+                "title": "Test Article 2",
+                "content": "Lorem Ipsum 2",
+                "user_id": 1,
+                "status": "published",
+                "published_at": "2025-08-11 04:22:26",
+                "created_at": "2025-08-11T04:17:45.000000Z",
+                "updated_at": "2025-08-11T04:22:26.000000Z",
+                "author": {
+                    "id": 1,
+                    "name": "Admin User"
+                }
+            },
+            {
+                "id": 3,
+                "title": "Test Article 2",
+                "content": "Lorem Ipsum 2",
+                "user_id": 6,
+                "status": "published",
+                "published_at": "2025-08-11 04:22:30",
+                "created_at": "2025-08-11T04:20:03.000000Z",
+                "updated_at": "2025-08-11T04:22:30.000000Z",
+                "author": {
+                    "id": 6,
+                    "name": "Dip Ahmed"
+                }
+            },
+            {
+                "id": 4,
+                "title": "New Article",
+                "content": "This is the content",
+                "user_id": 6,
+                "status": "published",
+                "published_at": "2025-08-11 04:22:33",
+                "created_at": "2025-08-11T04:20:34.000000Z",
+                "updated_at": "2025-08-11T04:22:33.000000Z",
+                "author": {
+                    "id": 6,
+                    "name": "Dip Ahmed"
+                }
+            }
+        ],
+        "first_page_url": "http://localhost:8000/api/articles?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8000/api/articles?page=1",
+        "links": [
+            {
+                "url": null,
+                "label": "&laquo; Previous",
+                "active": false
+            },
+            {
+                "url": "http://localhost:8000/api/articles?page=1",
+                "label": "1",
+                "active": true
+            },
+            {
+                "url": null,
+                "label": "Next &raquo;",
+                "active": false
+            }
+        ],
+        "next_page_url": null,
+        "path": "http://localhost:8000/api/articles",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": 4,
+        "total": 4
+    }
+}
 
 GET /api/articles/mine
 Description: List own articles
 Test Request Payload: None
-Example Response:
-[
-  { "id": 2, "title": "My Draft", "status": "draft" }
-]
+Response:
+{
+    "status": "success",
+    "status_code": 200,
+    "data": {
+        "id": 1,
+        "name": "Admin User",
+        "email": "admin@bvs.com",
+        "roles": [
+            {
+                "id": 1,
+                "name": "admin"
+            }
+        ],
+        "created_at": "2025-08-09T06:24:34.000000Z",
+        "updated_at": "2025-08-09T06:24:34.000000Z"
+    }
+}
 
 POST /api/articles
 Description: Create article (Authors only)
@@ -118,36 +325,148 @@ Test Request Payload:
   "title": "New Article",
   "content": "This is the content"
 }
-Example Response:
+Response:
 {
-  "message": "Article created successfully",
-  "article": { "id": 3, "title": "New Article" }
+    "status": "success",
+    "status_code": 200,
+    "data": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": 1,
+                "title": "Test Article 1",
+                "content": "Lorem Ipsum",
+                "user_id": 1,
+                "status": "published",
+                "published_at": "2025-08-11 04:22:10",
+                "created_at": "2025-08-11T04:17:29.000000Z",
+                "updated_at": "2025-08-11T04:22:10.000000Z",
+                "author": {
+                    "id": 1,
+                    "name": "Admin User"
+                }
+            },
+            {
+                "id": 2,
+                "title": "Test Article 2",
+                "content": "Lorem Ipsum 2",
+                "user_id": 1,
+                "status": "published",
+                "published_at": "2025-08-11 04:22:26",
+                "created_at": "2025-08-11T04:17:45.000000Z",
+                "updated_at": "2025-08-11T04:22:26.000000Z",
+                "author": {
+                    "id": 1,
+                    "name": "Admin User"
+                }
+            },
+            {
+                "id": 3,
+                "title": "Test Article 2",
+                "content": "Lorem Ipsum 2",
+                "user_id": 6,
+                "status": "published",
+                "published_at": "2025-08-11 04:22:30",
+                "created_at": "2025-08-11T04:20:03.000000Z",
+                "updated_at": "2025-08-11T04:22:30.000000Z",
+                "author": {
+                    "id": 6,
+                    "name": "Dip Ahmed"
+                }
+            },
+            {
+                "id": 4,
+                "title": "New Article",
+                "content": "This is the content",
+                "user_id": 6,
+                "status": "published",
+                "published_at": "2025-08-11 04:22:33",
+                "created_at": "2025-08-11T04:20:34.000000Z",
+                "updated_at": "2025-08-11T04:22:33.000000Z",
+                "author": {
+                    "id": 6,
+                    "name": "Dip Ahmed"
+                }
+            }
+        ],
+        "first_page_url": "http://localhost:8000/api/articles?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8000/api/articles?page=1",
+        "links": [
+            {
+                "url": null,
+                "label": "&laquo; Previous",
+                "active": false
+            },
+            {
+                "url": "http://localhost:8000/api/articles?page=1",
+                "label": "1",
+                "active": true
+            },
+            {
+                "url": null,
+                "label": "Next &raquo;",
+                "active": false
+            }
+        ],
+        "next_page_url": null,
+        "path": "http://localhost:8000/api/articles",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": 4,
+        "total": 4
+    }
 }
 
 PUT /api/articles/{id}
 Description: Update own article
-Test Request Payload:
+Request Payload:
 {
-  "title": "Updated Title",
-  "content": "Updated content"
+  "title": "Update Latest Article",
+  "content": "This is the Update latest content"
 }
-Example Response:
+Response:
 {
-  "message": "Article updated successfully"
+    "status": "success",
+    "status_code": 200,
+    "data": {
+        "id": 5,
+        "title": "Update Latest Article",
+        "content": "This is the Update latest content",
+        "user_id": 6,
+        "status": "draft",
+        "published_at": "2025-08-11 04:25:56",
+        "created_at": "2025-08-11T04:25:56.000000Z",
+        "updated_at": "2025-08-11T04:27:56.000000Z"
+    }
 }
 
 DELETE /api/articles/{id}
 Description: Delete article (Admin only)
 Test Request Payload: None
-Example Response:
+Response:
 {
-  "message": "Article deleted successfully"
+    "status": "success",
+    "status_code": 200,
+    "message": "Article deleted successfully"
 }
 
 PATCH /api/articles/{id}/publish
 Description: Publish article (Editor/Admin)
 Test Request Payload: None
-Example Response:
+Response:
 {
-  "message": "Article published successfully"
+    "status": "success",
+    "status_code": 200,
+    "data": {
+        "id": 5,
+        "title": "Update Latest Article",
+        "content": "This is the Update latest content",
+        "user_id": 6,
+        "status": "published",
+        "published_at": "2025-08-11T04:28:39.657093Z",
+        "created_at": "2025-08-11T04:25:56.000000Z",
+        "updated_at": "2025-08-11T04:28:39.000000Z"
+    }
 }
