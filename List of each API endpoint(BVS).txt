@@ -1,0 +1,153 @@
+API Endpoint Test Reference
+------------------------------
+
+POST /api/register
+Description: Register a new user
+Request Payload:
+{
+  "name": "Dip Ahmed",
+  "email": "dip546@gmail.com",
+  "password": "12345678",
+  "password_confirmation": "12345678",
+}
+Response:
+{
+    "status": "success",
+    "status_code": 201,
+    "message": "User registered successfully!",
+    "user": {
+        "name": "Dip Ahmed",
+        "email": "dip546@gmail.com",
+        "updated_at": "2025-08-11T03:55:05.000000Z",
+        "created_at": "2025-08-11T03:55:05.000000Z",
+        "id": 5
+    },
+    "token": "3|T1ViJ76O7w9dim5Np9Ur9L0UE0FwKJtWuFT14nvX8c94001b"
+}
+
+---------------------------------------------------------------------
+
+
+POST /api/login
+Description: Login user & get token
+Add the token
+Request Payload:
+{
+  "email": "admin@bvs.com",
+  "password": "12345678"
+}
+Response:
+{
+    "status": "success",
+    "status_code": 200,
+    "message": "User logged in successfully!",
+    "user": {
+        "id": 1,
+        "name": "Admin User",
+        "email": "admin@bvs.com",
+        "email_verified_at": null,
+        "created_at": "2025-08-09T06:24:34.000000Z",
+        "updated_at": "2025-08-09T06:24:34.000000Z"
+    },
+    "token": "4|tfp4FukIdMCz1TUJSvlJNnc6IKd2oagMdSgfRjPKc0afe408"
+}
+
+-------------------------------------------------------------------------------
+
+POST /api/logout
+Description: Logout user (requires token)
+In Authorization, In auth Type Added Bearer Token And added this token
+4|tfp4FukIdMCz1TUJSvlJNnc6IKd2oagMdSgfRjPKc0afe408
+Test Request Payload: None
+Example Response:
+{
+  "message": "Logged out successfully"
+}
+
+GET /api/users
+Description: List all users (Admin only)
+Test Request Payload: None
+Example Response:
+[
+  { "id": 1, "name": "Admin", "email": "admin@bvs.com" },
+  { "id": 2, "name": "Editor", "email": "editor@bvs.com" }
+]
+
+POST /api/users/{id}/assign-role
+Description: Assign a role to a user (Admin only)
+Test Request Payload:
+{
+  "role": "Editor"
+}
+Example Response:
+{
+  "message": "Role assigned successfully"
+}
+
+GET /api/profile
+Description: Get own profile
+Test Request Payload: None
+Example Response:
+{
+  "id": 1,
+  "name": "Admin",
+  "email": "admin@bvs.com",
+  "roles": ["Admin"]
+}
+
+GET /api/articles
+Description: List published articles
+Test Request Payload: None
+Example Response:
+[
+  { "id": 1, "title": "First Article", "author": "Author User" }
+]
+
+GET /api/articles/mine
+Description: List own articles
+Test Request Payload: None
+Example Response:
+[
+  { "id": 2, "title": "My Draft", "status": "draft" }
+]
+
+POST /api/articles
+Description: Create article (Authors only)
+Test Request Payload:
+{
+  "title": "New Article",
+  "content": "This is the content"
+}
+Example Response:
+{
+  "message": "Article created successfully",
+  "article": { "id": 3, "title": "New Article" }
+}
+
+PUT /api/articles/{id}
+Description: Update own article
+Test Request Payload:
+{
+  "title": "Updated Title",
+  "content": "Updated content"
+}
+Example Response:
+{
+  "message": "Article updated successfully"
+}
+
+DELETE /api/articles/{id}
+Description: Delete article (Admin only)
+Test Request Payload: None
+Example Response:
+{
+  "message": "Article deleted successfully"
+}
+
+PATCH /api/articles/{id}/publish
+Description: Publish article (Editor/Admin)
+Test Request Payload: None
+Example Response:
+{
+  "message": "Article published successfully"
+}

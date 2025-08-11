@@ -1,0 +1,108 @@
+To seed roles, permissions, and users, run these commands:
+-------------------------------------------------------------
+php artisan db:seed --class=RolesAndPermissionsSeeder
+php artisan db:seed --class=UsersTableSeeder
+
+Alternatively, to run all seeders registered in DatabaseSeeder:
+
+php artisan db:seed
+
+Seeded users include:
+
+Admin: 
+Email: admin@bvs.com 
+Password: 12345678
+-----------------------
+Editor: 
+Email: editor@bvs.com 
+Password: editor
+-----------------------------
+Author: 
+Email: author@bvs.com 
+Password:author
+---------------------------------
+
+
+Role-Based Access Control Truth Table
+------------------------------------------------
+
+Role	Users	       users.create  	users.view	users.edit	users.delete
+Admin	admin@bvs.com	Yes	           Yes	            Yes	            Yes
+Editor	editor@bvs.com	No		  Yes	            Yes	             No
+Author	author@bvs.com	No	          Yes	             No	             No
+
+Proof of Concept (Test Request & Response)
+
+
+POST /api/login
+Description: Admin Login user & get token
+
+Request Payload:
+{
+  "email": "admin@bvs.com",
+  "password": "12345678"
+}
+Response:
+{
+    "status": "success",
+    "status_code": 200,
+    "message": "User logged in successfully!",
+    "user": {
+        "id": 1,
+        "name": "Admin User",
+        "email": "admin@bvs.com",
+        "email_verified_at": null,
+        "created_at": "2025-08-09T06:24:34.000000Z",
+        "updated_at": "2025-08-09T06:24:34.000000Z"
+    },
+    "token": "4|tfp4FukIdMCz1TUJSvlJNnc6IKd2oagMdSgfRjPKc0afe408"
+}
+
+POST /api/login
+Description: Editor Login user & get token
+
+Request Payload:
+{
+  "email": "editor@bvs.com",
+  "password": "editor"
+}
+Response:
+{
+    "status": "success",
+    "status_code": 200,
+    "message": "User logged in successfully!",
+    "user": {
+        "id": 2,
+        "name": "Editor User",
+        "email": "editor@bvs.com",
+        "email_verified_at": null,
+        "created_at": "2025-08-09T06:24:34.000000Z",
+        "updated_at": "2025-08-09T06:24:34.000000Z"
+    },
+    "token": "10|cjxURMw3fk5zApBxZVmDF4QHp8tw68Z4vaDOFVTe12ebba9b"
+}
+
+
+POST /api/login
+Description: Author Login user & get token
+
+Request Payload:
+{
+  "email": "author@bvs.com",
+  "password": "author"
+}
+Response:
+{
+    "status": "success",
+    "status_code": 200,
+    "message": "User logged in successfully!",
+    "user": {
+        "id": 3,
+        "name": "Author User",
+        "email": "author@bvs.com",
+        "email_verified_at": null,
+        "created_at": "2025-08-09T06:24:35.000000Z",
+        "updated_at": "2025-08-09T06:24:35.000000Z"
+    },
+    "token": "11|o8N8PTMezbkg4ly0xfSxuVpXoZviV0GT9PtqsvlH102f7240"
+}
